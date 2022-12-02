@@ -7,7 +7,7 @@
 
     <div v-if="listaSpesaHasElement" class="lista">
       <h1>Lista della spesa: </h1>
-      <Item @delete-item="removeItem" @update-item="changeItem" v-for="elementoSpesa in listaSpesa" :key="elementoSpesa.id" :id="elementoSpesa.id" :nome="elementoSpesa.nome"/>
+      <Item @delete-item="removeItem" @update-item="updateItem" v-for="elementoSpesa in listaSpesa" :key="elementoSpesa.id" :id="elementoSpesa.id" :nome="elementoSpesa.nome"/>
     </div>
 
     <div v-else>
@@ -87,7 +87,6 @@ export default {
     },
 
 
-    
     removeItem(idItem){
       console.log(idItem);
       this.listaSpesa = this.listaSpesa.filter(el => {
@@ -95,19 +94,16 @@ export default {
         return el.id !== idItem
       })
     },
-
-    changeItem({id, newName}){
-
-      console.log('New item name');
-
-      this.listaSpesa = this.listaSpesa.map(el => {
-        if(el.id === id){
-          return el.nome = newName
-        }else{
-          return el;
-        }
+    updateItem({id, nome}){
+      const newListaSpesa = [...this.listaSpesa].map(el => {
+        return el.id === id ? {...el, nome} : el
       })
+
+      this.listaSpesa = newListaSpesa;
     }
+    
+    
+    
     }
 
   }

@@ -1,12 +1,12 @@
 <template>
   <div>
     <h1>{{ fullItemName }}</h1>
-    <button @click="deleteItem">Elimina elemento</button>
+    <button @click="deleteItem(id)">Elimina elemento</button>
     <button @click="updateItem">Aggiorna</button>
 
     <div v-if="isModalOpen">
-      <input type="text" v-model="updatedItemName" />
-      <button @click="confirmUpdateName">Conferma</button>
+      <input v-model="newName" type="text" @keydown.enter="confirmUpdate(id,newName)"/>
+      <button @click="confirmUpdate(id,newName)">Conferma</button>
     </div>
   </div>
 </template>
@@ -27,22 +27,23 @@ export default {
   data: () => {
     return {
       isModalOpen: false,
-      updatedItemName: "",
+      newName: ""
     };
   },
   methods: {
-    deleteItem() {
-      this.$emit("delete-item", this.id);
+    deleteItem(id) {
+      this.$emit("delete-item", id);
     },
     updateItem() {
-      this.isModalOpen = true;
+        this.isModalOpen = true;
     },
-    confirmUpdateName() {
-        console.log('updating...')
-        this.$emit("update-name", { id: this.id, newName: this.updatedItemName });
-        this.isModalOpen = false
-        this.updatedItemName = ''
-    },
+    confirmUpdate(id, nome){
+        if(nome.trim() === ""){
+            return
+        }
+        this.$emit("update-item", {id , nome})
+        this.newName = ""
+    }
   },
   computed: {
     fullItemName() {
