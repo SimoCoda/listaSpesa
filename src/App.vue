@@ -72,6 +72,8 @@ export default {
         nome: this.item.nome,
       }
 
+
+
       if(el.nome.trim() === ''){
         console.log("Il nome non può essere vuoto!")
         return;
@@ -84,6 +86,8 @@ export default {
       this.item.id++;
     },
 
+
+    
     removeItem(idItem){
       console.log(idItem);
       this.listaSpesa = this.listaSpesa.filter(el => {
